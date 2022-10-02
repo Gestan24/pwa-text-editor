@@ -32,14 +32,58 @@ module.exports = () => {
       }),
 
       new WebpackPwaManifest({
-        name: ''
+        name: 'Text Editor App',
+        short_name: 'Text Editor',
+        description: 'text editor',
+        background_color: '#222',
+        theme_color: '',
+        start_url: './',
+        publicPath: './',
+        fingerprints: false,
+        inject: true,
+        icons: [
+          {
+            src: path.resolve('src/images/logo.png'),
+            sizes: [96, 128, 192, 256, 384, 512],
+            destination: path.join('assets', 'icons'),
+          },
+          {
+            src: path.resolve('src/images/logo.png'),
+            size: '1024x1024',
+            destination: path.join('assets', 'icons'),
+            purpose: 'maskable'
+          }
+        ],
       })
-      
+
     ],
 
     module: {
       rules: [
-        
+
+        {
+          test: /\.css$/i,
+          use: ['style-loader', 'css-loader'],
+        },
+
+        {
+          test: /\.(png|svg|jpg|jpeg|gif)$/i,
+          type: 'asset/resource',
+        },
+
+        {
+          test: /\.m?js$/,
+          exclude: /node_modules/,
+          use: {
+            loader: 'babel-loader',
+            options: {
+              presets: [
+                ['@babel/preset-env', { targets: "defaults" }]
+              ]
+            }
+          }
+        }
+
       ],
     },
   };
